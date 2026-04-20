@@ -1,17 +1,22 @@
 use random_word::Lang;
 
 fn main() {
-    let word = random_word::get(Lang::En);
-    println!("{}", word);
+    let mut sentence = String::new();
+    for _i in 1..4{
+        let word = random_word::get(Lang::En);
+        sentence = sentence + " " + word;
+    }
+    let sentence = sentence.trim_start_matches(' ');
+    println!("{}", sentence);
 
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).expect("Error while reading");
-    let input = input.trim();
+    let input = input.trim_end_matches(&['\r', '\n'][..]);
 
-    if input != word {
+    if input != sentence {
         println!("'{}' is wrong", input);
     }
     else{
-        println!("'{}' is correct", input);   
+        println!("'{}' is correct", input);
     }
 }
