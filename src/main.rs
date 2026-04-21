@@ -6,9 +6,8 @@ fn main() {
     println!("{}", sentence);
 
     let input = get_input();
-    let result = input_correct(input, sentence);
 
-    println!("{}", if result {"Correct!".green()} else {"Incorrect!".red()})
+    write_sentence_with_highlighting(split_sentence(sentence), split_sentence(input));
 }
 
 fn generate_sentence(length: i32) -> String {
@@ -21,15 +20,34 @@ fn generate_sentence(length: i32) -> String {
     return sentence.trim_start_matches(' ').to_string();
 }
 
-fn input_correct(input: String, sentence: String) -> bool {
-    if input != sentence {
-        return false;
-    }
-    return true;
-}
-
 fn get_input() -> String {
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).expect("Error while reading");
     return input.trim_end_matches(&['\r', '\n'][..]).to_string();
+}
+
+fn split_sentence(sentence: String) -> Vec<char> {
+    return sentence.chars().collect();
+}
+
+fn write_sentence_with_highlighting(sentence_vec: Vec<char>, input_vec: Vec<char>) {
+    for (i, input_char) in input_vec.iter().enumerate() {
+        match sentence_vec.get(i) {
+            Some(expected_char) if input_char == expected_char => {
+                if *input_char == ' ' {
+                    print!("{}", "·".green());
+                } else {
+                    print!("{}", input_char.to_string().green());
+                }
+            }
+            Some(_) | None => {
+                if *input_char == ' ' {
+                    print!("{}", "·".red());
+                } else {
+                    print!("{}", input_char.to_string().red());
+                }
+            }
+        }
+    }
+    println!();
 }
