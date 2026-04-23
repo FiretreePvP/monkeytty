@@ -1,5 +1,6 @@
 use random_word::Lang;
 use colored::Colorize;
+use std::io::{self, Write};
 
 fn main() {
     let sentence = generate_sentence(2);
@@ -23,6 +24,11 @@ fn generate_sentence(length: i32) -> String {
 fn get_input() -> String {
     let mut input = String::new();
     std::io::stdin().read_line(&mut input).expect("Error while reading");
+
+    //Visually removes the input from the terminal
+    print!("\x1B[1A\x1B[2K");
+    io::stdout().flush().unwrap();
+
     return input.trim_end_matches(&['\r', '\n'][..]).to_string();
 }
 
