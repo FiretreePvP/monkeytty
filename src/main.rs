@@ -1,5 +1,7 @@
 mod core;
-mod ui;
+mod user_interface;
+
+use user_interface::terminal as ui;
 
 fn main() {
     let sentence = core::generate_sentence(10);
