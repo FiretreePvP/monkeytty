@@ -1,23 +1,24 @@
 mod core;
-mod user_interface;
 
-use user_interface::ratatui as ui;
-
-/*
-use user_interface::terminal as ui;
+use ratatui::{DefaultTerminal, Frame};
 
 
-fn main() {
-    let sentence = core::generate_sentence(10);
-    println!("{}", sentence);
-    
-    let input = ui::get_input();
-    ui::write_sentence_with_highlighting(core::split_sentence(sentence), core::split_sentence(input));
+pub fn main() -> color_eyre::Result<()> {
+    let sentence = core::generate_sentence(3);
+    color_eyre::install()?;
+    ratatui::run(app)?;
+    Ok(())
 }
 
-*/
+fn app(terminal: &mut DefaultTerminal) -> std::io::Result<()> {
+    loop {
+        terminal.draw(render)?;
+        if crossterm::event::read()?.is_key_press() {
+            break Ok(());
+        }
+    }
+}
 
-fn main() {
-    let sentence = core::generate_sentence(10);
-    ui::init_console().expect("Error while reading");
+fn render(frame: &mut Frame) {
+    frame.render_widget("hello world", frame.area());
 }
